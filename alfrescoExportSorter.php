@@ -134,6 +134,10 @@ if(file_exists($INPUT_FILE)) {
 	if(!empty($fileContents)) {
 		$xml = simplexml_load_file($INPUT_FILE);
 		
+		//this dumps all registered namespaces
+		//$namespaces = $result[0]->getNamespaces(true);
+		//var_dump($namespaces);
+		
 		//register namespaces
 		$xml->registerXPathNamespace('cm', 'http://www.alfresco.org/model/content/1.0');
 		$xml->registerXPathNamespace('view', 'http://www.alfresco.org/view/repository/1.0');
@@ -142,9 +146,6 @@ if(file_exists($INPUT_FILE)) {
 		$xml->registerXPathNamespace('rn', 'http://www.alfresco.org/model/rendition/1.0');
 		$xml->registerXPathNamespace('lnk', 'http://www.alfresco.org/model/linksmodel/1.0');
 		$xml->registerXPathNamespace('dl', 'http://www.alfresco.org/model/datalist/1.0');
-		
-		//this gets all folder nodes in whole document
-		//$result = $xml->xpath("//cm:folder");
 		
 		//create output folder
 		echo "\tcreating directory: $OUTPUT_FOLDER\n\n";
@@ -156,10 +157,6 @@ if(file_exists($INPUT_FILE)) {
 		
 		//get the document library node - this is the starting point for the processing
 		$result = $xml->xpath("/view:view/cm:folder[@view:childName='cm:documentLibrary']");
-		
-		//this dumps all registered namespaces
-		//$namespaces = $result[0]->getNamespaces(true);
-		//var_dump($namespaces);
 		
 		processParent($result[0]); //should only be one document library node
 		
